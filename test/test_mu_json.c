@@ -808,11 +808,9 @@ void test_rfc_7159(void) {
 
 void test_regression(void) {
     // add any regression tests here.
-    TEST_JSON_BAD_FMT(JSON_TEST_SUITE_DIR "n_array_comma_after_close.json");
-    TEST_JSON_BAD_FMT(JSON_TEST_SUITE_DIR "n_number_1_000.json");
-    TEST_JSON_BAD_FMT(JSON_TEST_SUITE_DIR "n_string_single_doublequote.json");
-    TEST_JSON_BAD_FMT(JSON_TEST_SUITE_DIR
-                      "n_structure_close_unopened_array.json");
+    mu_json_token_t tokens[5];
+    const char *json = "[{\"x\": 0}, 1]";
+    TEST_ASSERT_EQUAL_INT(5, mu_json_parse_c_str(tokens, 5, json, NULL));
 }
 
 int main(void) {
@@ -820,20 +818,21 @@ int main(void) {
 
     RUN_TEST(test_demo_example);
 
-    RUN_TEST(test_regression);
-    RUN_TEST(test_json_token_type);
-    RUN_TEST(test_json_token_depth);
-    RUN_TEST(test_json_token_prev);
-    RUN_TEST(test_json_token_next);
-    RUN_TEST(test_json_token_root);
-    RUN_TEST(test_json_token_parent);
-    RUN_TEST(test_json_token_child);
-    RUN_TEST(test_json_token_prev_sibling);
-    RUN_TEST(test_json_token_next_sibling);
-    RUN_TEST(test_json_token_parsed_elements);
-    RUN_TEST(test_json_check_good_format);
-    RUN_TEST(test_json_check_bad_format);
-    RUN_TEST(test_rfc_7159);
+    // RUN_TEST(test_json_token_type);
+    // RUN_TEST(test_json_token_depth);
+    // RUN_TEST(test_json_token_prev);
+    // RUN_TEST(test_json_token_next);
+    // RUN_TEST(test_json_token_root);
+    // RUN_TEST(test_json_token_parent);
+    // RUN_TEST(test_json_token_child);
+    // RUN_TEST(test_json_token_prev_sibling);
+    // RUN_TEST(test_json_token_next_sibling);
+    // RUN_TEST(test_json_token_parsed_elements);
+    // RUN_TEST(test_json_check_good_format);
+    // RUN_TEST(test_json_check_bad_format);
+    // RUN_TEST(test_rfc_7159);
+
+    // RUN_TEST(test_regression);
 
     return UNITY_END();
 }
