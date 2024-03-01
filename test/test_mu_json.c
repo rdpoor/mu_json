@@ -809,7 +809,31 @@ void test_rfc_7159(void) {
 void test_regression(void) {
     // add any regression tests here.
     mu_json_token_t tokens[5];
-    const char *json = "[{\"x\": 0}, 1]";
+    char *json;
+
+    json = "[,1]";
+    TEST_ASSERT_EQUAL_INT(-1, mu_json_parse_c_str(tokens, 5, json, NULL));
+
+    json = "[null, 1, \"1\", {}]";
+    TEST_ASSERT_EQUAL_INT(5, mu_json_parse_c_str(tokens, 5, json, NULL));
+
+    json = "[{\"x\": 0}, 1]";
+    TEST_ASSERT_EQUAL_INT(5, mu_json_parse_c_str(tokens, 5, json, NULL));
+    json = "[{\"x\": 0}, {}]";
+    TEST_ASSERT_EQUAL_INT(5, mu_json_parse_c_str(tokens, 5, json, NULL));
+    json = "[{\"x\": 0}, []]";
+    TEST_ASSERT_EQUAL_INT(5, mu_json_parse_c_str(tokens, 5, json, NULL));
+    json = "[{\"x\": {}}, 1]";
+    TEST_ASSERT_EQUAL_INT(5, mu_json_parse_c_str(tokens, 5, json, NULL));
+    json = "[{\"x\": {}}, {}]";
+    TEST_ASSERT_EQUAL_INT(5, mu_json_parse_c_str(tokens, 5, json, NULL));
+    json = "[{\"x\": {}}, []]";
+    TEST_ASSERT_EQUAL_INT(5, mu_json_parse_c_str(tokens, 5, json, NULL));
+    json = "[{\"x\": []}, 1]";
+    TEST_ASSERT_EQUAL_INT(5, mu_json_parse_c_str(tokens, 5, json, NULL));
+    json = "[{\"x\": []}, {}]";
+    TEST_ASSERT_EQUAL_INT(5, mu_json_parse_c_str(tokens, 5, json, NULL));
+    json = "[{\"x\": []}, []]";
     TEST_ASSERT_EQUAL_INT(5, mu_json_parse_c_str(tokens, 5, json, NULL));
 }
 
@@ -818,21 +842,21 @@ int main(void) {
 
     RUN_TEST(test_demo_example);
 
-    // RUN_TEST(test_json_token_type);
-    // RUN_TEST(test_json_token_depth);
-    // RUN_TEST(test_json_token_prev);
-    // RUN_TEST(test_json_token_next);
-    // RUN_TEST(test_json_token_root);
-    // RUN_TEST(test_json_token_parent);
-    // RUN_TEST(test_json_token_child);
-    // RUN_TEST(test_json_token_prev_sibling);
-    // RUN_TEST(test_json_token_next_sibling);
-    // RUN_TEST(test_json_token_parsed_elements);
-    // RUN_TEST(test_json_check_good_format);
+    RUN_TEST(test_json_token_type);
+    RUN_TEST(test_json_token_depth);
+    RUN_TEST(test_json_token_prev);
+    RUN_TEST(test_json_token_next);
+    RUN_TEST(test_json_token_root);
+    RUN_TEST(test_json_token_parent);
+    RUN_TEST(test_json_token_child);
+    RUN_TEST(test_json_token_prev_sibling);
+    RUN_TEST(test_json_token_next_sibling);
+    RUN_TEST(test_json_token_parsed_elements);
+    RUN_TEST(test_json_check_good_format);
     // RUN_TEST(test_json_check_bad_format);
-    // RUN_TEST(test_rfc_7159);
+    RUN_TEST(test_rfc_7159);
 
-    // RUN_TEST(test_regression);
+    RUN_TEST(test_regression);
 
     return UNITY_END();
 }
